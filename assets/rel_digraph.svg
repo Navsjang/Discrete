@@ -1,15 +1,21 @@
-<svg width="240" height="140" viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="70" r="24" fill="#3a5a96" stroke="#e6eef3" stroke-width="2"/>
-  <circle cx="120" cy="30" r="24" fill="#5699af" stroke="#e6eef3" stroke-width="2"/>
-  <circle cx="190" cy="110" r="24" fill="#52bda9" stroke="#e6eef3" stroke-width="2"/>
-  <text x="50" y="75" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">1</text>
-  <text x="120" y="35" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">2</text>
-  <text x="190" y="115" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">3</text>
+<svg width="300" height="150" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arrow" markerWidth="18" markerHeight="18" refX="6" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M2,2 L2,11 L10,6 L2,2" fill="#fff"/>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#48b6e8" />
     </marker>
   </defs>
-  <line x1="64" y1="62" x2="108" y2="38" stroke="#fff" stroke-width="3" marker-end="url(#arrow)"/>
-  <line x1="138" y1="46" x2="180" y2="96" stroke="#fff" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Nodes -->
+  <circle cx="50" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
+  <text x="50" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">1</text>
+  
+  <circle cx="150" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
+  <text x="150" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">2</text>
+  
+  <circle cx="250" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
+  <text x="250" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">3</text>
+  
+  <!-- Arrows -->
+  <line x1="70" y1="75" x2="130" y2="75" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowhead)" />
+  <line x1="170" y1="75" x2="230" y2="75" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowhead)" />
 </svg>
