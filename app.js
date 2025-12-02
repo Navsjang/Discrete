@@ -26,29 +26,7 @@ try {
             content: `
 <h2>Digraphs & Arrow Diagrams</h2>
 <p>Relations can be visualized as directed graphs (digraphs), with elements as nodes and arrows for each pair (a,b) ∈ R.</p>
-<div style="text-align: center; margin: 18px auto;">
-  <svg width="300" height="150" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-        <polygon points="0 0, 10 3.5, 0 7" fill="#48b6e8" />
-      </marker>
-    </defs>
-    
-    <!-- Nodes -->
-    <circle cx="50" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
-    <text x="50" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">1</text>
-    
-    <circle cx="150" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
-    <text x="150" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">2</text>
-    
-    <circle cx="250" cy="75" r="20" fill="#2257a8" stroke="#fff" stroke-width="2" />
-    <text x="250" y="80" font-size="16" fill="#fff" text-anchor="middle" font-family="Segoe UI">3</text>
-    
-    <!-- Arrows -->
-    <line x1="70" y1="75" x2="130" y2="75" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowhead)" />
-    <line x1="170" y1="75" x2="230" y2="75" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowhead)" />
-  </svg>
-</div>
+<img src="assets/images/rel_digraph.svg" alt="Relation Digraph" style="max-width:250px; display:block; margin:18px auto 2px auto;">
 <small style="display:block; text-align:center; color:#cfeff8;">Example: Digraph for R = {(1,2), (2,3)}</small>
 `
         }
@@ -97,7 +75,6 @@ try {
         }
         if (page === 'topics') renderTopicButtons();
         if (page === 'tools') initMatrixTool();
-        if (page === 'digraphtool') initDigraphTool();
         if (page === 'quiz') loadQuiz();
     }
 
@@ -147,7 +124,7 @@ try {
         if (matrixBtn && matrixInput) {
             matrixBtn.onclick = () => {
                 const input = matrixInput.value;
-                const pairs = input.match(/\$([^)]+)\$/g);
+                const pairs = input.match(/\(([^)]+)\)/g);
                 if (!pairs || !pairs.length) {
                     matrixList.innerHTML = '<p>Enter at least one pair like (1,2),(2,3)</p>';
                     if (noMatrixMsg) noMatrixMsg.style.display = 'none';
@@ -194,91 +171,105 @@ try {
     }
 
     // === Digraph Builder Tool: Nodes & Arrows ===
-    let digraphNodes = [];
-    let digraphArrows = [];
+let digraphNodes = [];
+let digraphArrows = [];
 
-    function initDigraphTool() {
-        const nodeLabelInput = document.getElementById('nodeLabelInput');
-        const addNodeBtn = document.getElementById('addNodeBtn');
-        const fromNodeSelect = document.getElementById('fromNodeSelect');
-        const toNodeSelect = document.getElementById('toNodeSelect');
-        const addArrowBtn = document.getElementById('addArrowBtn');
-        const clearBtn = document.getElementById('clearDigraphBtn');
-        const svg = document.getElementById('digraphCanvas');
-        const nodeListArea = document.getElementById('digraphNodeList');
+function initDigraphTool() {
+    const nodeLabelInput = document.getElementById('nodeLabelInput');
+    const addNodeBtn = document.getElementById('addNodeBtn');
+    const fromNodeSelect = document.getElementById('fromNodeSelect');
+    const toNodeSelect = document.getElementById('toNodeSelect');
+    const addArrowBtn = document.getElementById('addArrowBtn');
+    const clearBtn = document.getElementById('clearDigraphBtn');
+    const svg = document.getElementById('digraphCanvas');
+    const nodeListArea = document.getElementById('digraphNodeList');
 
-        function redraw() {
-            svg.innerHTML = '';
-            // Arrange nodes in circle
-            const cx = 250, cy = 115, rad = 80;
-            const positions = [];
-            if (digraphNodes.length) {
-                digraphNodes.forEach((node, i) => {
-                    const angle = (2*Math.PI * i)/digraphNodes.length - Math.PI/2;
-                    positions[i] = {
-                        x: cx + rad*Math.cos(angle),
-                        y: cy + rad*Math.sin(angle)
-                    };
-                });
-            }
-
-            // Draw arrows
-            digraphArrows.forEach(([fromIdx, toIdx]) => {
-                const start = positions[fromIdx], end = positions[toIdx];
-                if (!start || !end) return;
-                // Shorten line so it stops before the edge of the node
-                const dx = end.x - start.x, dy = end.y - start.y;
-                const len = Math.sqrt(dx*dx + dy*dy);
-                const adj = 24;
-                const sx = start.x + (dx/len)*adj, sy = start.y + (dy/len)*adj;
-                const ex = end.x - (dx/len)*adj, ey = end.y - (dy/len)*adj;
-                svg.innerHTML += `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowHead)"/>`;
-            });
-            // Define arrow marker (added first)
-            svg.innerHTML = `<defs>
-                <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-                    <polygon points="2,1 8,5 2,9" fill="#48b6e8"/>
-                </marker>
-            </defs>` + svg.innerHTML;
-            // Draw nodes
+    function redraw() {
+        svg.innerHTML = '';
+        // Arrange nodes in circle
+        const cx = 250, cy = 115, rad = 80;
+        const positions = [];
+        if (digraphNodes.length) {
             digraphNodes.forEach((node, i) => {
-                const pos = positions[i];
-                svg.innerHTML += `<circle cx="${pos.x}" cy="${pos.y}" r="24" fill="#2257a8" stroke="#fff" stroke-width="2"/>` +
-                    `<text x="${pos.x}" y="${pos.y+7}" font-size="19" fill="#fff" text-anchor="middle" font-family="Segoe UI">${node}</text>`;
+                const angle = (2*Math.PI * i)/digraphNodes.length - Math.PI/2;
+                positions[i] = {
+                    x: cx + rad*Math.cos(angle),
+                    y: cy + rad*Math.sin(angle)
+                };
             });
-
-            // List nodes for quick deletion (optional feature)
-            nodeListArea.innerHTML = `<strong>Nodes:</strong> ${
-              digraphNodes.map((n, i) =>
-                `<span style="display:inline-block;margin:0 6px 2px 0;padding:2px 9px;border-radius:20px;background:#0f3b5c;color:#fff;">${n}</span>`).join('')
-            }`;
-            // Refresh node drop-downs
-            fromNodeSelect.innerHTML = `<option value="">From Node</option>` + digraphNodes.map((n,i)=>`<option value="${i}">${n}</option>`).join('');
-            toNodeSelect.innerHTML = `<option value="">To Node</option>` + digraphNodes.map((n,i)=>`<option value="${i}">${n}</option>`).join('');
         }
 
-        addNodeBtn.onclick = function() {
-            const label = nodeLabelInput.value.trim();
-            if (!label) { alert("Enter node label."); return; }
-            if (digraphNodes.includes(label)) { alert("Node label already exists."); return; }
-            digraphNodes.push(label);
-            nodeLabelInput.value = '';
-            redraw();
-        };
-        addArrowBtn.onclick = function() {
-            const from = parseInt(fromNodeSelect.value), to = parseInt(toNodeSelect.value);
-            if (isNaN(from) || isNaN(to)) { alert("Select nodes for the arrow."); return; }
-            digraphArrows.push([from, to]);
-            redraw();
-        };
-        clearBtn.onclick = function() {
-            digraphNodes = [];
-            digraphArrows = [];
-            redraw();
-        };
+        // Draw arrows
+        digraphArrows.forEach(([fromIdx, toIdx]) => {
+            const start = positions[fromIdx], end = positions[toIdx];
+            if (!start || !end) return;
+            // Shorten line so it stops before the edge of the node
+            const dx = end.x - start.x, dy = end.y - start.y;
+            const len = Math.sqrt(dx*dx + dy*dy);
+            const adj = 24;
+            const sx = start.x + (dx/len)*adj, sy = start.y + (dy/len)*adj;
+            const ex = end.x - (dx/len)*adj, ey = end.y - (dy/len)*adj;
+            svg.innerHTML += `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="#48b6e8" stroke-width="3" marker-end="url(#arrowHead)"/>`;
+        });
+        // Define arrow marker (added first)
+        svg.innerHTML = `<defs>
+            <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                <polygon points="2,1 8,5 2,9" fill="#48b6e8"/>
+            </marker>
+        </defs>` + svg.innerHTML;
+        // Draw nodes
+        digraphNodes.forEach((node, i) => {
+            const pos = positions[i];
+            svg.innerHTML += `<circle cx="${pos.x}" cy="${pos.y}" r="24" fill="#2257a8" stroke="#fff" stroke-width="2"/>` +
+                `<text x="${pos.x}" y="${pos.y+7}" font-size="19" fill="#fff" text-anchor="middle" font-family="Segoe UI">${node}</text>`;
+        });
 
-        redraw();
+        // List nodes for quick deletion (optional feature)
+        nodeListArea.innerHTML = `<strong>Nodes:</strong> ${
+          digraphNodes.map((n, i) =>
+            `<span style="display:inline-block;margin:0 6px 2px 0;padding:2px 9px;border-radius:20px;background:#0f3b5c;color:#fff;">${n}</span>`).join('')
+        }`;
+        // Refresh node drop-downs
+        fromNodeSelect.innerHTML = `<option value="">From Node</option>` + digraphNodes.map((n,i)=>`<option value="${i}">${n}</option>`).join('');
+        toNodeSelect.innerHTML = `<option value="">To Node</option>` + digraphNodes.map((n,i)=>`<option value="${i}">${n}</option>`).join('');
     }
+
+    addNodeBtn.onclick = function() {
+        const label = nodeLabelInput.value.trim();
+        if (!label) { alert("Enter node label."); return; }
+        if (digraphNodes.includes(label)) { alert("Node label already exists."); return; }
+        digraphNodes.push(label);
+        nodeLabelInput.value = '';
+        redraw();
+    };
+    addArrowBtn.onclick = function() {
+        const from = parseInt(fromNodeSelect.value), to = parseInt(toNodeSelect.value);
+        if (isNaN(from) || isNaN(to)) { alert("Select nodes for the arrow."); return; }
+        digraphArrows.push([from, to]);
+        redraw();
+    };
+    clearBtn.onclick = function() {
+        digraphNodes = [];
+        digraphArrows = [];
+        redraw();
+    };
+
+    redraw();
+}
+
+// And update your showPage(page) function:
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    const el = document.getElementById(page);
+    if (el) {
+        el.classList.remove('hidden');
+        el.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (page === 'topics') renderTopicButtons();
+    if (page === 'tools') initMatrixTool();
+    if (page === 'digraphtool') initDigraphTool();
+    if (page === 'quiz') loadQuiz();
+}
 
     const quizQuestions = [
         { q: 'Which is a way to represent a relation?', opts: ['Set of pairs', 'Digraph', 'Matrix', 'All of the above'], a: 3 },
