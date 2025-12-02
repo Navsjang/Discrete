@@ -36,7 +36,7 @@ try {
 <ul>
     <li>Set of Ordered Pairs: <code>{(1,2), (2,3), (3,1)}</code></li>
     <li>Table/List</li>
-    <li>Directed Graph (Digraph) <br><img src="assets/images/rel_digraph.png" style="max-width:200px"></li>
+    <li>Directed Graph (Digraph) <br><img src="assets/images/rel_digraph.svg" style="max-width:200px"></li>
     <li>Zero-One Matrix <br><img src="assets/images/rel_matrix.png" style="max-width:200px"></li>
     <li>Arrow Diagrams</li>
 </ul>
@@ -79,7 +79,9 @@ try {
             content: `
 <h2>Digraphs & Arrow Diagrams</h2>
 <p>Relations can be visualized as directed graphs (digraphs), with elements as nodes and arrows for each pair (a,b) ∈ R.</p>
-<img src="assets/images/rel_digraph.png" style="max-width:250px">
+<!-- SVG image for {1,2,3} and (1,2),(2,3) -->
+<img src="assets/images/rel_digraph.svg" alt="Relation Digraph" style="max-width:250px; display:block; margin:18px auto 2px auto;">
+<small style="display:block; text-align:center; color:#cfeff8;">Example: Digraph for R = {(1,2), (2,3)}</small>
 `
         },
         {
@@ -175,7 +177,6 @@ Repeat for all k in {1..n}:
         });
     }
 
-    // Show page function (adjusted so topics uses renderTopicButtons inline)
     let currentCategory = 'input';
     function showPage(page) {
         document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -189,7 +190,6 @@ Repeat for all k in {1..n}:
         if (page === 'quiz') loadQuiz();
     }
 
-    // -- Matrix tool logic remains unchanged --
     function initMatrixTool() {
         const matrixList = document.getElementById('matrixList');
         const matrixBtn = document.getElementById('matrixBtn');
@@ -263,7 +263,6 @@ Repeat for all k in {1..n}:
         }
     }
 
-    // Quiz remains unchanged
     const quizQuestions = [
         { q: 'Which is a way to represent a relation?', opts: ['Set of pairs', 'Digraph', 'Matrix', 'All of the above'], a: 3 },
         { q: 'The reflexive closure of R on {1,2} adds which pair?', opts: ['(1,2)', '(2,1)', '(1,1) and (2,2)', 'None'], a: 2 },
