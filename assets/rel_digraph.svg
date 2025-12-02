@@ -1,0 +1,22 @@
+<svg width="240" height="140" viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="70" r="24" fill="#3a5a96" stroke="#e6eef3" stroke-width="2"/>
+  <circle cx="120" cy="30" r="24" fill="#5699af" stroke="#e6eef3" stroke-width="2"/>
+  <circle cx="190" cy="110" r="24" fill="#52bda9" stroke="#e6eef3" stroke-width="2"/>
+
+  <!-- labels -->
+  <text x="50" y="75" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">1</text>
+  <text x="120" y="35" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">2</text>
+  <text x="190" y="115" font-size="20" fill="#fff" font-family="Segoe UI" text-anchor="middle">3</text>
+
+  <!-- arrow 1->2 -->
+  <defs>
+    <marker id="arrow" markerWidth="18" markerHeight="18" refX="6" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L2,11 L10,6 L2,2" fill="#fff"/>
+    </marker>
+  </defs>
+  <line x1="64" y1="62" x2="108" y2="38" stroke="#fff" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- arrow 2->3 -->
+  <line x1="138" y1="46" x2="180" y2="96" stroke="#fff" stroke-width="3" marker-end="url(#arrow)"/>
+
+</svg>
