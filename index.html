@@ -21,6 +21,7 @@
             <li><a href="#" data-page="home">Home</a></li>
             <li><a href="#" data-page="topics">Topics</a></li>
             <li><a href="#" data-page="tools">Matrix Tool</a></li>
+            <li><a href="#" data-page="digraphtool">Digraph Tool</a></li>
             <li><a href="#" data-page="quiz">Ice Breaker</a></li>
         </ul>
     </nav>
@@ -40,6 +41,7 @@
 
         <section id="tools" class="page hidden">
             <h2>Matrix Tool — Build Relation Matrices</h2>
+            <div id="toolDescription"></div>
             <div class="explorer-window">
                 <div class="explorer-header">
                     <span>Relation Matrix Tool</span>
@@ -59,6 +61,24 @@
                         <div id="noMatrixMsg">Enter relation pairs on the left, then hit Show Matrix!</div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="digraphtool" class="page hidden">
+            <h2>Relation Digraph Builder</h2>
+            <div class="digraph-tool-panel">
+                <div class="digraph-tool-controls">
+                    <input id="nodeLabelInput" placeholder="Node label (e.g. 1, a)" maxlength="2" />
+                    <button id="addNodeBtn">Add Node</button>
+                    <select id="fromNodeSelect"><option value="">From Node</option></select>
+                    <select id="toNodeSelect"><option value="">To Node</option></select>
+                    <button id="addArrowBtn">Add Arrow</button>
+                    <button id="clearDigraphBtn">Clear</button>
+                </div>
+                <div id="digraphCanvasArea">
+                    <svg id="digraphCanvas" width="500" height="230" style="background:#092a34; border-radius:10px;"></svg>
+                </div>
+                <div id="digraphNodeList" style="margin-top:10px;"></div>
             </div>
         </section>
 
